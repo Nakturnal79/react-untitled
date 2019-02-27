@@ -1,26 +1,28 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import NaviBar from './components/navibar'
+import { Route, Switch ,Redirect} from 'react-router-dom';
+import About from './components/about-us';
+import OurMission from './components/our-mission';
+import Error404 from './components/error404';
+import MainPage from './components/mainPage';
+
 import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+        <div>
+       <NaviBar/>
+        <div className="container">
+          <Switch>
+          <Route path="/OurMission" component={OurMission}/>
+          <Route path="/About" component={About}/>
+           <Route path="/error404" component={Error404} />
+              <Route path="/" exact component={MainPage}/>
+           <Redirect to="/error404" />
+          </Switch>
+        </div>
+        </div>
     );
   }
 }
