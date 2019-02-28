@@ -51,7 +51,6 @@ class ContactForm extends Component {
               label="Email address"
               name="email"
             />
-
             <div className="form-group">
               <label htmlFor="message">Enter text here</label>
               <textarea

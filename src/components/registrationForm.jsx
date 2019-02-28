@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Input from "./common/input";
+import Joi from "joi";
 
 class RegistrationForm extends Component {
   state = {
@@ -9,6 +10,15 @@ class RegistrationForm extends Component {
       email: ""
     },
     errors: {}
+  };
+
+  schema = {
+    username: Joi.string()
+      .required()
+      .label("Username"),
+    password: Joi.string()
+      .required()
+      .label("Password")
   };
 
   handleSubmit = e => {
@@ -27,19 +37,21 @@ class RegistrationForm extends Component {
     this.setState({ data, errors });
   };
   validate = () => {
+    const result = Joi.validate(this.state.data, this.schema, {
+      abortEarly: false
+    });
+    if (!result.error) return null;
     const errors = {};
-    if (this.state.data.username.trim() === "")
-      errors.username = "Empty username";
-    if (this.state.data.password.trim() === "")
-      errors.password = "Empty password";
-    if (this.state.data.email.trim() === "") errors.email = "Empty email";
-    return Object.keys(errors).length === 0 ? null : errors;
+    for (let item of result.error.details) errors[item.path[0]] = item.message;
+    return errors;
+
+    // errors[result.]
   };
-  validateProperty = e => {
-    if (e.name === "username")
-      if (e.value.trim() === "") return "Empty username";
-    if (e.name === "password")
-      if (e.value.trim() === "") return "Empty password";
+  validateProperty = ({ name, value }) => {
+    const obj = { [name]: value };
+    const schema = { [name]: this.schema[name] };
+    const { error } = Joi.validate(obj, schema);
+    return error ? error.details[0].message : null;
   };
   render() {
     return (
@@ -71,7 +83,7 @@ class RegistrationForm extends Component {
           <button
             className="btn btn-primary float-right"
             type="submit"
-            disabled={this.validate()}
+            // disabled={this.validate()}
           >
             Register
           </button>
