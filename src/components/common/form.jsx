@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Joi from "joi";
+import Input from "./input";
 
 class Form extends Component {
   state = {
@@ -39,6 +40,30 @@ class Form extends Component {
     const { error } = Joi.validate(obj, schema);
     return error ? error.details[0].message : null;
   };
+
+  submitButton(label) {
+    return (
+      <button
+        className="btn btn-primary float-right"
+        type="submit"
+        disabled={this.validate()}
+      >
+        {label}
+      </button>
+    );
+  }
+  inputField(name, label, type = "text") {
+    return (
+      <Input
+        error={this.state.errors[name]}
+        name={name}
+        label={label}
+        value={this.state.data[name]}
+        onChange={this.handleChange}
+        type={type}
+      />
+    );
+  }
 }
 
 export default Form;

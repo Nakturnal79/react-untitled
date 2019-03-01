@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import Input from "./common/input";
+import Form from "./common/form";
+import Joi from "joi";
 
-class ContactForm extends Component {
+class ContactForm extends Form {
   state = {
     data: {
       firstName: "",
@@ -10,7 +12,20 @@ class ContactForm extends Component {
     },
     errors: {}
   };
-  handleSubmit = e => {
+
+  schema = {
+    firstName: Joi.string()
+      .required()
+      .label("Firs Name"),
+    email: Joi.string()
+      .required()
+      .label("Email")
+  };
+
+  doSubmit = () => {
+    console.log("sumbitted");
+  };
+  /*handleSubmit = e => {
     e.preventDefault();
     const errors = this.validate();
     console.log(errors);
@@ -29,13 +44,14 @@ class ContactForm extends Component {
     if (firstName.trim() === "") errors.firstName = "First name is required";
     if (email.trim() === "") errors.email = "Email name is required";
     return Object.keys(errors).length === 0 ? null : errors;
-  }
+  }*/
   render() {
     return (
       <div className="col-md-6 ml-auto">
         <div className="well well-sm">
           <form className="form-horizontal" onSubmit={this.handleSubmit}>
             <Input
+              error={this.state.errors.firstName}
               onChange={this.handleChange}
               value={this.state.data.firstName}
               type="text"
@@ -44,6 +60,7 @@ class ContactForm extends Component {
               name="firstName"
             />
             <Input
+              error={this.state.errors.email}
               onChange={this.handleChange}
               value={this.state.data.email}
               type="email"
@@ -60,9 +77,7 @@ class ContactForm extends Component {
                 name="message"
               />
             </div>
-            <button className="btn btn-primary float-right" type="submit">
-              Button
-            </button>
+            {this.submitButton("Button")}
           </form>
         </div>
       </div>

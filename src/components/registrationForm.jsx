@@ -19,7 +19,8 @@ class RegistrationForm extends Form {
       .label("Username"),
     password: Joi.string()
       .required()
-      .label("Password")
+      .label("Password"),
+    email: Joi.string().required()
   };
 
   doSubmit = () => {
@@ -30,36 +31,10 @@ class RegistrationForm extends Form {
     return (
       <React.Fragment>
         <form onSubmit={this.handleSubmit}>
-          <Input
-            error={this.state.errors.username}
-            name="username"
-            label="Username"
-            value={this.state.data.username}
-            onChange={this.handleChange}
-            type="text"
-          />
-          <Input
-            error={this.state.errors.password}
-            name="password"
-            label="Password"
-            value={this.state.data.password}
-            onChange={this.handleChange}
-            type="password"
-          />
-          <Input
-            name="email"
-            label="Email"
-            value={this.state.data.email}
-            onChange={this.handleChange}
-            type="email"
-          />
-          <button
-            className="btn btn-primary float-right"
-            type="submit"
-            // disabled={this.validate()}
-          >
-            Register
-          </button>
+          {this.inputField("username", "Username")}
+          {this.inputField("password", "Password", "password")}
+          {this.inputField("email", "Email")}
+          {this.submitButton("Submit")}
         </form>
       </React.Fragment>
     );
