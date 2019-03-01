@@ -20,11 +20,14 @@ class RegistrationForm extends Form {
     password: Joi.string()
       .required()
       .label("Password"),
-    email: Joi.string().required()
+    email: Joi.string()
+      .email({ minDomainAtoms: 2 })
+      .required()
   };
 
   doSubmit = () => {
-    console.log("sumbitted");
+    // call the server
+    console.log("submitted");
   };
 
   render() {

@@ -48,6 +48,11 @@ class NaviBar extends Component {
                   </NavLink>
                 </li>
                 <li className="nav-item">
+                  <NavLink className={navLinks} to="/Movies">
+                    Movies
+                  </NavLink>
+                </li>
+                <li className="nav-item">
                   <NavLink className={navLinks} to="/About">
                     About
                   </NavLink>

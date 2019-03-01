@@ -4,6 +4,7 @@ import { Route, Switch ,Redirect} from 'react-router-dom';
 import About from './components/about-us';
 import Registration from './components/registration';
 import Contacts from './components/contacts';
+import Movies from './movie/movies';
 import Error404 from './components/error404';
 import MainPage from './components/mainPage';
 
@@ -18,6 +19,7 @@ class App extends Component {
                 <Switch>
                     <Route path="/Registration" component={Registration}/>
                     <Route path="/About" component={About}/>
+                    <Route path="/Movies" component={Movies}/>
                     <Route path="/Contacts" component={Contacts}/>
                     <Route path="/error404" component={Error404}/>
                     <Route path="/" exact component={MainPage}/>

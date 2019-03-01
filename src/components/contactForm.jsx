@@ -19,11 +19,13 @@ class ContactForm extends Form {
       .label("Firs Name"),
     email: Joi.string()
       .required()
+      .email({ minDomainAtoms: 2 })
       .label("Email")
   };
 
   doSubmit = () => {
-    console.log("sumbitted");
+    // call the server
+    console.log("submitted");
   };
   /*handleSubmit = e => {
     e.preventDefault();
@@ -63,7 +65,7 @@ class ContactForm extends Form {
               error={this.state.errors.email}
               onChange={this.handleChange}
               value={this.state.data.email}
-              type="email"
+              type="text"
               id="email"
               label="Email address"
               name="email"
