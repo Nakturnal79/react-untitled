@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { getMovies } from "./services/fakeMovieService";
 import MoviesTable from "./components/moviesTable";
-import { Like } from "./components/like";
 import Pagination from "./components/pagination";
 import { paginate } from "./utils/paginate";
 
