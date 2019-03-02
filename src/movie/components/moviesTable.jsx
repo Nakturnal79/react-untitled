@@ -15,7 +15,7 @@ class MoviesTable extends Component {
             <th scope="col" />
           </tr>
         </thead>
-        <tbody>
+        <tbody className="movies-body">
           {this.props.movies.map(movie => (
             <tr key={movie._id}>
               <th>{movie.title}</th>

@@ -119,3 +119,7 @@ code {
   margin-top: 300px;
   margin-bottom: 200px;
 }
+
+.movies-body th {
+    font-weight: normal;
+}

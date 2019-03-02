@@ -23,8 +23,19 @@ class Movies extends Component {
   }
   handleDelete = id => {
     const movies = this.state.movies.filter(movie => movie._id !== id);
-    this.setState({ movies: movies, currentPage: 1 });
-    // console.log(movies);
+    let currentPage;
+    // console.log(movies.length);
+    if (
+      movies.length % this.state.pageSize === 0 &&
+      this.state.currentPage !== 1 &&
+      this.state.currentPage * this.state.pageSize !== movies.length
+    )
+      currentPage = this.state.currentPage - 1;
+    else currentPage = this.state.currentPage;
+    this.setState({
+      movies: movies,
+      currentPage: currentPage
+    });
   };
   handleLike = movie => {
     const movies = [...this.state.movies];
