@@ -80,7 +80,7 @@ code {
   color: #ff6a47;
   text-decoration: none;
 }
-.active {
+.navbar .active {
   color: #ff6a47 !important;
 }
 
