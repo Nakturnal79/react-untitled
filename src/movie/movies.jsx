@@ -5,6 +5,8 @@ import MoviesTable from "./components/moviesTable";
 import Pagination from "./components/pagination";
 import { Filter } from "./components/filter";
 import { paginate } from "./utils/paginate";
+import { SearchBar } from "./components/serachBar";
+import _ from "lodash";
 
 class Movies extends Component {
   state = {
@@ -12,7 +14,9 @@ class Movies extends Component {
     pageSize: 4,
     currentPage: 1,
     genre: [],
-    selectedGenre: ""
+    selectedGenre: "",
+    search: "",
+    sortColumn: { path: "title", order: "asc" }
   };
 
   componentDidMount() {
@@ -49,21 +53,38 @@ class Movies extends Component {
   handleChange = page => {
     this.setState({ currentPage: page });
   };
-
+  handleSearch = e => {
+    const search = e.currentTarget.value;
+    this.setState({ search: search, currentPage: 1 });
+  };
+  handleSort = path => {
+    const sortColumn = { ...this.state.sortColumn };
+    if (sortColumn.path === path)
+      sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
+    else {
+      sortColumn.path = path;
+      sortColumn.order = "asc";
+    }
+    this.setState({ sortColumn });
+  };
   getPagedData = () => {
     const {
       pageSize,
       currentPage,
       movies: allMovies,
-      selectedGenre
+      selectedGenre,
+      search,
+      sortColumn
     } = this.state;
 
     const filtered =
       selectedGenre !== ""
         ? allMovies.filter(movie => selectedGenre === movie.genre._id)
-        : allMovies;
-
-    const movies = paginate(currentPage, pageSize, filtered);
+        : allMovies.filter(movie =>
+            movie.title.toLowerCase().startsWith(search.toLowerCase())
+          );
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+    const movies = paginate(currentPage, pageSize, sorted);
 
     return { totalCount: filtered.length, data: movies };
   };
@@ -83,12 +104,14 @@ class Movies extends Component {
               selected={this.state.selectedGenre}
             />
           </div>
-          <div className="col-md-9">
-            <p style={paddingTop}>There are {count} movies in the base </p>
+          <div className="col-md-9" style={paddingTop}>
+            <SearchBar onChange={this.handleSearch} value={this.state.search} />
+            <p>There are {count} movies in the base </p>
             <MoviesTable
               movies={movies}
               onLike={this.handleLike}
               onDelete={this.handleDelete}
+              onSort={this.handleSort}
             />
             <Pagination
               count={totalCount}
