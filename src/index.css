@@ -121,5 +121,8 @@ code {
 }
 
 .movies-body th {
-    font-weight: normal;
+  font-weight: normal;
+}
+.clickable{
+  cursor: pointer;
 }
