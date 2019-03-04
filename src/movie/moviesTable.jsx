@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Like } from "./components/like";
 import TableHeader from "./components/tableHeader";
+import TableBody from "./components/tableBody";
 
 class MoviesTable extends Component {
   columns = [
@@ -8,11 +9,28 @@ class MoviesTable extends Component {
     { path: "genre.name", label: "Genre" },
     { path: "numberInStock", label: "Stock" },
     { path: "dailyRentalRate", label: "Rate" },
-    { key: "like" },
-    { key: "delete" }
+    {
+      key: "like",
+      content: movie => (
+        <Like liked={movie.liked} onClick={() => this.props.onLike(movie)} />
+      )
+    },
+    {
+      key: "delete",
+      content: movie => (
+        <button
+          className="btn btn-sm btn-danger"
+          onClick={() => {
+            this.props.onDelete(movie);
+          }}
+        >
+          Delete
+        </button>
+      )
+    }
   ];
   render() {
-    const { movies, sortColumn, onSort } = this.props;
+    const { movies, sortColumn, onSort, onLike, onDelete } = this.props;
 
     return (
       <table className="table">
@@ -21,30 +39,12 @@ class MoviesTable extends Component {
           sortColumn={sortColumn}
           onSort={onSort}
         />
-        <tbody className="movies-body">
-          {movies.map(movie => (
-            <tr key={movie._id}>
-              <th>{movie.title}</th>
-              <th>{movie.genre.name}</th>
-              <th>{movie.numberInStock}</th>
-              <th>{movie.dailyRentalRate}</th>
-              <th>
-                <button
-                  className="btn btn-danger btn-sm"
-                  onClick={() => this.props.onDelete(movie._id)}
-                >
-                  Delete
-                </button>
-              </th>
-              <th>
-                <Like
-                  liked={movie.liked}
-                  onClick={() => this.props.onLike(movie)}
-                />
-              </th>
-            </tr>
-          ))}
-        </tbody>
+        <TableBody
+          data={movies}
+          onDelete={onDelete}
+          onLike={onLike}
+          columns={this.columns}
+        />
       </table>
     );
   }
